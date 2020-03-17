@@ -34,6 +34,25 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+.Rproj.user
+out/
+internal.R
+*.DS_Store
 
 # R Environment Variables
 .Renviron
+.Rproj.user
+
+# Data files
+/data/
+
+#Figures
+/graphics/
+*.png
+*.html
+*.pdf
+.DS_Store
+#/out*/
+/tmp*/
+*qgs*
+*doc*

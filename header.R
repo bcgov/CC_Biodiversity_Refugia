@@ -23,6 +23,7 @@ library(lubridate)
 library(tibble)
 library(janitor)
 library(foreign)
+library(spatial.tools)
 
 OutDir <- 'out'
 dataOutDir <- file.path(OutDir,'data')

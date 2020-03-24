@@ -48,7 +48,7 @@ BEC2080z_LUT<-BEC2080z %>%
   rbind(data.frame(ZONEn.2=NA, ZONE=NA))
 
 #need to add NA case since many non-analogue between years
-BEC1970_2080z<-raster::crosstab(BEC1970z, BEC2080z, long=TRUE, useNA=TRUE) %>%
+BEC1970_2080z2<-raster::crosstab(BEC1970z, BEC2080z, long=TRUE, useNA=FALSE) %>%
   left_join(BEC1970z_LUT) %>%
   dplyr::rename(BEC1970=ZONE) %>%
   left_join(BEC2080z_LUT) %>%
@@ -56,12 +56,17 @@ BEC1970_2080z<-raster::crosstab(BEC1970z, BEC2080z, long=TRUE, useNA=TRUE) %>%
   dplyr::select(BEC1970n=ZONEn.1, BEC1970, BEC2080n=ZONEn.2, BEC2080, Freq)
 
 sum(BEC1970_2080z$Freq)
+sum(BEC1970_2080z$Freq[!is.na(BEC1970_2080z$BEC1970n)])
+#Check raster for size and values
+#cellStats((BEC1970_2080z>0),sum)
+#unique(BEC2080P)
+
 
 #Find which and the number of overlaps between years
 macroRefugiaZ <- BEC1970_2080z %>%
   dplyr::filter_(~as.character(BEC1970) == as.character(BEC2080))
 #Calculate % of overlap between 1970 and 2080
-sum(macroRefugiaZ$Freq)/sum(BEC1970_2080z$Freq)*100
+sum(macroRefugiaZ$Freq)/sum(BEC1970_2080z$Freq[!is.na(BEC1970_2080z$BEC1970n)])*100
 
 ### Sub-Zone
 #Compare Sub=Zone from 1970 to 2080
@@ -97,7 +102,7 @@ BEC2080sz_LUT<-BEC2080sz %>%
   rbind(data.frame(SUBZn.2=NA, SUBZ=NA))
 
 #need to add NA case since many non-analogue between years
-BEC1970_2080sz<-raster::crosstab(BEC1970sz, BEC2080sz, long=TRUE, useNA=TRUE) %>%
+BEC1970_2080sz<-raster::crosstab(BEC1970sz, BEC2080sz, long=TRUE, useNA=FALSE) %>%
   left_join(BEC1970sz_LUT) %>%
   dplyr::rename(BEC1970=SUBZ) %>%
   left_join(BEC2080sz_LUT) %>%
@@ -146,7 +151,7 @@ BEC2080v_LUT<-BEC2080v %>%
   rbind(data.frame(VARn.2=NA, VAR=NA))
 
 #need to add NA case since many non-analogue between years
-BEC1970_2080v<-raster::crosstab(BEC1970v, BEC2080v, long=TRUE, useNA=TRUE) %>%
+BEC1970_2080v<-raster::crosstab(BEC1970v, BEC2080v, long=TRUE, useNA=FALSE) %>%
   left_join(BEC1970v_LUT) %>%
   dplyr::rename(BEC1970=VAR) %>%
   left_join(BEC2080v_LUT) %>%
@@ -195,7 +200,7 @@ BEC2080g_LUT<-BEC2080g %>%
   rbind(data.frame(Groupn.2=NA, BECgroup=NA))
 
 #need to add NA case since many non-analogue between years
-BEC1970_2080g<-raster::crosstab(BEC1970g, BEC2080g, long=TRUE, useNA=TRUE) %>%
+BEC1970_2080g<-raster::crosstab(BEC1970g, BEC2080g, long=TRUE, useNA=FALSE) %>%
   left_join(BEC1970g_LUT) %>%
   dplyr::rename(BEC1970=BECgroup) %>%
   left_join(BEC2080g_LUT) %>%
@@ -218,12 +223,9 @@ XtabSummary<- data.frame(c('Zone','SubZone','Variant','Group'),
                            sum(macroRefugiaG$Freq)/sum(BEC1970_2080g$Freq)*100))
 colnames(XtabSummary)<-c('BECscale','pcOverlap')
 
-
-#mapview(BEC1970z,maxpixels =  4308570)+mapview(BEC2080z,maxpixels =  4308570)
-
 #Write out results into a multi-tab spreadsheet
-BECxData<-list(XtabSummary, BEC1970_2080v,macroRefugiaV, BEC1970_2080sz,macroRefugiaSZ, BEC1970_2080z,macroRefugiaZ)
-BECDataNames<-c('XtabSummary','VariantXtab','VariantOverlap','SubZoneXtab','SubZoneOverlap','ZoneXtab','ZoneOverlap')
+BECxData<-list(XtabSummary, BEC1970_2080g,macroRefugiaG,  BEC1970_2080v,macroRefugiaV, BEC1970_2080sz,macroRefugiaSZ, BEC1970_2080z,macroRefugiaZ)
+BECDataNames<-c('XtabSummary','GroupXtab','GroupOverlap','VariantXtab','VariantOverlap','SubZoneXtab','SubZoneOverlap','ZoneXtab','ZoneOverlap')
 
 WriteXLS(BECxData,file.path(dataOutDir,paste('BECxData.xlsx',sep='')),SheetNames=BECDataNames)
 

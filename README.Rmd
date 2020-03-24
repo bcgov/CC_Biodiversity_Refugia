@@ -1,7 +1,7 @@
 ---
 output:
-  md_document:
-    variant: markdown_github
+  github_document:
+    html_preview: true
 ---
 
 ```{r, echo = FALSE}
@@ -11,35 +11,38 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
-
-<!-- Add a project state badge
-See https://github.com/BCDevExchange/Our-Project-Docs/blob/master/discussion/projectstates.md
-If you have bcgovr installed and you use RStudio, click the 'Insert BCDevex Badge' Addin. -->
+```{r, echo=FALSE, results='asis'}
+bcgovr::insert_bcgov_devex_badge("Exploration")
+```
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 # CC_Biodiversity_Refugia
+This repository presents 2 analysis; 1) generates a macro refugia layering using BEC 1970 and BEC 2080 identifying equivalent areas; and 2) Intactness classifying human area and linear disturbance, ranking them according to their severity. A third Enduring Features is in development.
+
+### Data
+For the macro refugia analysis  current and 2080 modelled BEC were used - from: Wang, Tongli, Elizabeth M. Campbell, Gregory A. O’Neill, and Sally N. Aitken. 2012. “Projecting Future Distributions of Ecosystem Climate Niches: Uncertainties and Management Applications.” Forest Ecology and Management 279 (September): 128–40. https://doi.org/10.1016/j.foreco.2012.05.034. (https://cfcg.forestry.ubc.ca/projects/climate-data/climatebcwna/)
+
+For Intactness the analysis uses the Skeena East Environmental Stewardship Initiative (ESI) Area as a case-study. Previoulsy compiled Forest Age, Logging Year, Human Footprint, railroads, pipelines, hydro transmission corridors and road type where used. Methods are available on request.
 
 ### Usage
 
-Describe data being used (links), and how to run. Eg:
+There are 3 sets core scripts that are required for analysis, each set (macroRefugia, Footprint, EnduringFeatures) needs to be run in order:
 
-There are four core scripts that are required for the analysis, they need to be run in order:
-
-- 01_clean.R
-- 02_analysis.R
-- 03_visualize.R
-- 04_output.R
-
-#### Example
-
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-## basic example code
-```
+- 01_load.R
+- 01_load_macroRefugia.R
+- 01_load_Footprint.R
+- 01_load_EnduringFeatures.R
+- 02_clean_macroRefugia.R
+- 02_clean_Footprint.R
+- 02_clean_EnduringFeatures.R
+- 03_analysis_BECoverlap.R
+- 03_analysis_Footprint.R
+- 04_output_macroRefugia.R
 
 ### Project Status
+This project is part of Climate Change and Biodiversity assessment being led by the Ministry of Environment and Climate Change Strategy's Ecosystem Branch. The analysis is exploratory and will be added to and updated over the coming months. 
 
-### Getting Help or Reporting an Issue
+### Getting Help or Reporting an Issues
 
 To report bugs/issues/feature requests, please file an [issue](https://github.com/bcgov/CC_Biodiversity_Refugia/issues/).
 
@@ -65,5 +68,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and limitations under the License.
 ```
 
----
-*This project was created using the [bcgovr](https://github.com/bcgov/bcgovr) package.* 
+This repository is maintained by [ENVEcosystems](https://github.com/orgs/bcgov/teams/envecosystems/members). 

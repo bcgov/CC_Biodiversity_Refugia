@@ -19,22 +19,32 @@ BEC2080z<-raster(file.path(spatialOutDir,paste("BEC2080z.tif",sep="")))
 #mapview(BEC1970z,maxpixels =  4308570)+mapview(BEC2080z,maxpixels =  4308570)
 #Identify where BEC zones are the identical between 2080 and 1970
 BECOverz <- BEC2080z==BEC1970z
-cellStats(BECOverz,sum)
 writeRaster(BECOverz, filename=file.path(spatialOutDir,paste("BECOverz",sep="")), format="GTiff",overwrite=TRUE)
+BECmacroRZ <- BECOverz*BEC1970
+writeRaster(BECmacroRZ, filename=file.path(spatialOutDir,paste("BECmacroRZ",sep="")), format="GTiff",overwrite=TRUE)
 
 #Identify where BEC sub zones are the identical between 2080 and 1970
 BECOversz <- BEC2080sz==BEC1970sz
 cellStats(BECOversz,sum)
 writeRaster(BECOversz, filename=file.path(spatialOutDir,paste("BECOversz",sep="")), format="GTiff",overwrite=TRUE)
+BECmacroRSZ <- BECOversz*BEC1970
+writeRaster(BECmacroRSZ, filename=file.path(spatialOutDir,paste("BECmacroRSZ",sep="")), format="GTiff",overwrite=TRUE)
 
 #Identify where BEC groups are the identical between 2080 and 1970
 BECOverg <- BEC2080g==BEC1970g
 cellStats(BECOverg,sum)
 writeRaster(BECOverg, filename=file.path(spatialOutDir,paste("BECOverg",sep="")), format="GTiff",overwrite=TRUE)
+BECmacroRG <- BECOverg*BEC1970
+writeRaster(BECmacroRG, filename=file.path(spatialOutDir,paste("BECmacroRG",sep="")), format="GTiff",overwrite=TRUE)
 
 #Identify where BEC sub-zone variants are the identical between 2080 and 1970
 BECOverv <- BEC2080v==BEC1970v
 cellStats(BECOversz,sum)
 writeRaster(BECOverv, filename=file.path(spatialOutDir,paste("BECOverv",sep="")), format="GTiff",overwrite=TRUE)
+BECmacroRV <- BECOverv*BEC1970
+writeRaster(BECmacroRV, filename=file.path(spatialOutDir,paste("BECmacroRV",sep="")), format="GTiff",overwrite=TRUE)
+
+#write out a LUT for the BEC values
+WriteXLS(BEC1970P_LUT,file.path(dataOutDir,paste('BEC_LUT.xlsx',sep='')))
 
 

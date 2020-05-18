@@ -15,15 +15,15 @@ source('02_clean_Footprint.R')
 
 #Combine Linear rasters portion of human footprint selecting max value
 LinearDecay<-max(LinearDecay01,LinearDecay05,LinearDecay10)
-writeRaster(LinearDecay, filename=file.path(spatialOutDir,paste("LinearDecay",sep="")), format="GTiff",overwrite=TRUE)
+writeRaster(LinearDecay, filename=file.path(spatialOutDir,paste("intactLayers/LinearDecay",sep="")), format="GTiff",overwrite=TRUE)
 
 #Make Human Foot Print raster - max of 3 area based weight groups
 HF <- max(HF01,HF05,HF10, na.rm=TRUE)
-writeRaster(HF, filename=file.path(spatialOutDir,paste("HF",sep="")), format="GTiff",overwrite=TRUE)
+writeRaster(HF, filename=file.path(spatialOutDir,paste("intactLayers/HFootprint",sep="")), format="GTiff",overwrite=TRUE)
 
 #Make Human Foot Print raster - max of Human Footprint and Linear Feature surface
 HF_LD <- max(HF, LinearDecay, na.rm=TRUE)
-writeRaster(HF_LD, filename=file.path(spatialOutDir,paste("HF_LD",sep="")), format="GTiff",overwrite=TRUE)
+writeRaster(HF_LD, filename=file.path(spatialOutDir,paste("intactLayers/HFootprint_LinearDecay",sep="")), format="GTiff",overwrite=TRUE)
 
 
 

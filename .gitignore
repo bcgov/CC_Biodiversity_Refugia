@@ -56,3 +56,5 @@ internal.R
 /tmp*/
 *qgs*
 *doc*
+#archive
+/archive/

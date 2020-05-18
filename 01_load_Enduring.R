@@ -13,10 +13,8 @@
 source("header.R")
 source('0l_load.R')
 
-
 #Read in Landform file and mask to ESI area
 LForm<-
-  #raster(file.path('../GB_Data/data/Landform',"Landform_BCAlbs.tif")) %>%
   raster(file.path('/Users/darkbabine/Dropbox (BVRC)/_dev/Bears/GB_Data/data/Landform',"LForm.tif"))
 #mapview(LForm, maxpixels =  271048704)
 
@@ -49,4 +47,24 @@ saveRDS(LandCover, file = 'tmp/LandCover_LUT')
 Age<-
   raster(file.path(ESIDir,'Data/DataScience/SkeenaESI_LandCover_Age_Human_Footprint/OutRaster','Age.tif'))
 saveRDS(Age, file = 'tmp/Age')
+
+ws <- get_layer("wsc_drainages", class = "sf") %>%
+  select(SUB_DRAINAGE_AREA_NAME, SUB_SUB_DRAINAGE_AREA_NAME) %>%
+  filter(SUB_DRAINAGE_AREA_NAME %in% c("Nechako", "Skeena - Coast"))
+st_crs(ws)<-3005
+saveRDS(ws, file = "tmp/ws")
+
+#Load ESI supporting wetland data
+Wet_gdb <-file.path(WetspatialDir,'Wetland_Assessment_Level1_InputData.gdb')
+wet_list <- st_layers(Wet_gdb)
+
+#Load ESI Wetlands
+WetW_gdb <-file.path(WetspatialDir,'Wetland_T1','Skeena_ESI_T1_Wetland_20191219.gdb')
+#wet_list <- st_layers(Wet_gdb)
+Wetlands <- readOGR(dsn=WetW_gdb, layer = "Skeena_ESI_T1_Wetland_20191219") %>%
+  as('sf')
+st_crs(ws)<-3005
+saveRDS(Wetlands, file = 'tmp/Wetlands')
+
+
 

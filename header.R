@@ -23,7 +23,9 @@ library(lubridate)
 library(tibble)
 library(janitor)
 library(foreign)
-library(spatial.tools)
+library(SpatialTools)
+library(magrittr)
+library(spdep)
 
 OutDir <- 'out'
 dataOutDir <- file.path(OutDir,'data')
@@ -32,6 +34,7 @@ figsOutDir <- file.path(OutDir,'figures')
 SpatialDir <- file.path('data','spatial')
 DataDir <- file.path('data')
 spatialOutDir <- file.path(OutDir,'spatial')
+WetspatialDir <- file.path('/Users/darkbabine/Dropbox (BVRC)/Projects/ESI/Wetlands/Assessment/Data')
 
 RefugiaSpatialDir <- file.path('/Users/darkbabine/Dropbox (BVRC)/ClimateRefugia')
 ESIDir <- file.path('/Users/darkbabine/Dropbox (BVRC)/Projects/ESI')

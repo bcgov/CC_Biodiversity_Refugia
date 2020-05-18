@@ -36,13 +36,6 @@ if (!file.exists(BCr_file)) {
   ProvRast<-raster(file.path(spatialOutDir,'ProvRast.tif'))
 }
 
-ws <- get_layer("wsc_drainages", class = "sf") %>%
-  select(SUB_DRAINAGE_AREA_NAME, SUB_SUB_DRAINAGE_AREA_NAME) %>%
-  filter(SUB_DRAINAGE_AREA_NAME %in% c("Nechako", "Skeena - Coast"))
-st_crs(ws)<-3005
-saveRDS(ws, file = "tmp/ws")
-
-
 #ESI boundary - for testing, etc.
 ESI_file <- file.path("tmp/ESI")
 if (!file.exists(ESI_file)) {
@@ -55,5 +48,17 @@ if (!file.exists(ESI_file)) {
   ESI<-readRDS(file = ESI_file)
 
 
+#Ecosections
+EcoS_file <- file.path("tmp/EcoS")
+ESin <- read_sf(file.path(SpatialDir,'Ecosections/Ecosections.shp')) %>%
+  st_transform(3005)
+EcoS <- st_cast(ESin, "MULTIPOLYGON")
+saveRDS(EcoS, file = EcoS_file)
 
+#SkeenaSalmonStudyBoundary
+SalmS_file <- file.path("tmp/SalmS")
+SalmSin <- read_sf(file.path(SpatialDir,'SkeenaSalmonStudyBd/SkeenaSalmonStudyBd.shp')) %>%
+  st_transform(3005)
+SalmS <- st_cast(SalmSin, "MULTIPOLYGON")
+saveRDS(SalmS, file = SalmS_file)
 
